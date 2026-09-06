@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #70c5ce;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid #000;
+            background-color: #70c5ce;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="gameCanvas" width="320" height="480"></canvas>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Game variables
+let frames = 0;
+let score = 0;
+let gameOver = false;
+
+// Bird
+const bird = {
+    x: 50,
+    y: 150,
+    radius: 12,
+    gravity: 0.25,
+    jump: 4.6,
+    velocity: 0,
+    
+    draw: function() {
+        ctx.fillStyle = "#FFD700";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#000";
+        ctx.stroke();
+
+        // Eye
+        ctx.fillStyle = "#FFF";
+        ctx.beginPath();
+        ctx.arc(this.x + 4, this.y - 4, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#000";
+        ctx.beginPath();
+        ctx.arc(this.x + 6, this.y - 4, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Beak
+        ctx.fillStyle = "#FF4500";
+        ctx.beginPath();
+        ctx.arc(this.x + 8, this.y + 2, 4, 0, Math.PI * 2);
+        ctx.fill();
+    },
+
+    flap: function() {
+        this.velocity = -this.jump;
+    },
+
+    update: function() {
+        this.velocity += this.gravity;
+        this.y += this.velocity;
+
+        // Ground collision
+        if (this.y + this.radius >= canvas.height - 20) {
+            this.y = canvas.height - 20 - this.radius;
+            gameOver = true;
+        }
+
+        // Ceiling collision
+        if (this.y - this.radius <= 0) {
+            this.y = this.radius;
+            this.velocity = 0;
+        }
+    },
+
+    reset: function() {
+        this.y = 150;
+        this.velocity = 0;
+    }
+};
+
+// Pipes
+const pipes = {
+    position: [],
+    top: { sX: 56, sY: 323 },
+    bottom: { sX: 84, sY: 323 },
+    width: 50,
+    gap: 120,
+    dx: 2,
+
+    draw: function() {
+        for (let i = 0; i < this.position.length; i++) {
+            let p = this.position[i];
+            let topY = p.y;
+            let bottomY = p.y + this.gap;
+
+            // Top Pipe
+            ctx.fillStyle = "#2ECC71";
+            ctx.fillRect(p.x, 0, this.width, topY);
+            ctx.strokeStyle = "#000";
+            ctx.strokeRect(p.x, 0, this.width, topY);
+
+            // Bottom Pipe
+            ctx.fillRect(p.x, bottomY, this.width, canvas.height - bottomY - 20);
+            ctx.strokeRect(p.x, bottomY, this.width, canvas.height - bottomY - 20);
+        }
+    },
+
+    update: function() {
+        // Spawn pipes every 100 frames
+        if (frames % 100 === 0) {
+            this.position.push({
+                x: canvas.width,
+                y: Math.floor(Math.random() * (canvas.height - 200 - this.gap)) + 30
+            });
+        }
+
+        for (let i = 0; i < this.position.length; i++) {
+            let p = this.position[i];
+            p.x -= this.dx;
+
+            let bottomPipeY = p.y + this.gap;
+
+            // Hit detection - Top Pipe
+            if (bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + this.width &&
+                bird.y - bird.radius < p.y) {
+                gameOver = true;
+            }
+
+            // Hit detection - Bottom Pipe
+            if (bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + this.width &&
+                bird.y + bird.radius > bottomPipeY) {
+                gameOver = true;
+            }
+
+            // Score point
+            if (p.x + this.width < bird.x - bird.radius && !p.scored) {
+                score++;
+                p.scored = true;
+            }
+
+            // Remove offscreen pipes
+            if (p.x + this.width <= 0) {
+                this.position.shift();
+                i--;
+            }
+        }
+    },
+
+    reset: function() {
+        this.position = [];
+    }
+};
+
+// Ground
+const ground = {
+    draw: function() {
+        ctx.fillStyle = "#DED895";
+        ctx.fillRect(0, canvas.height - 20, canvas.width, 20);
+        ctx.strokeStyle = "#000";
+        ctx.strokeRect(0, canvas.height - 20, canvas.width, 20);
+    }
+};
+
+// Controls
+window.addEventListener("keydown", function(e) {
+    if (e.code === "Space") {
+        if (gameOver) {
+            resetGame();
+        } else {
+            bird.flap();
+        }
+    }
+});
+
+canvas.addEventListener("click", function() {
+    if (gameOver) {
+        resetGame();
+    } else {
+        bird.flap();
+    }
+});
+
+function resetGame() {
+    bird.reset();
+    pipes.reset();
+    score = 0;
+    gameOver = false;
+}
+
+function drawScore() {
+    ctx.fillStyle = "#FFF";
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+    ctx.font = "35px Arial";
+    ctx.fillText(score, canvas.width / 2 - 10, 50);
+    ctx.strokeText(score, canvas.width / 2 - 10, 50);
+}
+
+function drawGameOver() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#FFF";
+    ctx.font = "30px Arial";
+    ctx.fillText("Game Over", 80, 220);
+    ctx.font = "18px Arial";
+    ctx.fillText("Press Space or Click to Restart", 40, 260);
+}
+
+// Main Game Loop
+function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (!gameOver) {
+        bird.update();
+        pipes.update();
+        frames++;
+    }
+
+    pipes.draw();
+    ground.draw();
+    bird.draw();
+    drawScore();
+
+    if (gameOver) {
+        drawGameOver();
+    }
+
+    requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+
+</body>
+  </html>
+  
