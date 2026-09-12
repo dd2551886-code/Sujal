@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uber Clone</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial;
+    }
+
+    body {
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #000;
+      color: white;
+      padding: 18px;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .map {
+      height: 300px;
+      background:
+        linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        #eee;
+      background-size: 80px 80px;
+      position: relative;
+    }
+
+    .pin {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      font-size: 40px;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      margin: 15px;
+      border-radius: 15px;
+      box-shadow: 0 3px 15px #ccc;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin: 7px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .ride {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .ride:hover {
+      background: #eee;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      background: #000;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>Uber</header>
+
+  <div class="map">
+    <div class="pin">📍</div>
+  </div>
+
+  <div class="box">
+
+    <h2>Where to?</h2>
+
+    <input id="pickup" placeholder="Pickup location">
+    <input id="destination" placeholder="Destination">
+
+    <h3 style="margin-top:15px;">Choose a ride</h3>
+
+    <div class="ride" onclick="selectRide('UberX', 250)">
+      🚗 UberX
+      <b>Rs. 250</b>
+    </div>
+
+    <div class="ride" onclick="selectRide('Comfort', 400)">
+      🚘 Comfort
+      <b>Rs. 400</b>
+    </div>
+
+    <div class="ride" onclick="selectRide('Bike', 120)">
+      🏍️ Bike
+      <b>Rs. 120</b>
+    </div>
+
+    <button onclick="bookRide()">Book Ride</button>
+
+    <div id="message"></div>
+
+  </div>
+
+  <script>
+    let selectedRide = "";
+    let price = 0;
+
+    function selectRide(ride, fare) {
+      selectedRide = ride;
+      price = fare;
+
+      document.getElementById("message").innerHTML =
+        ride + " selected — Rs. " + fare;
+    }
+
+    function bookRide() {
+
+      let pickup = document.getElementById("pickup").value;
+      let destination = document.getElementById("destination").value;
+
+      if (pickup === "" || destination === "") {
+        document.getElementById("message").innerHTML =
+          "⚠️ Enter pickup and destination!";
+        return;
+      }
+
+      if (selectedRide === "") {
+        document.getElementById("message").innerHTML =
+          "⚠️ Select a ride first!";
+        return;
+      }
+
+      document.getElementById("message").innerHTML =
+        "✅ Ride booked!<br>" +
+        selectedRide + " — Rs. " + price;
+    }
+  </script>
+
+</body>
+</html>
