@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sujal kafle Website</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      background: #f2f2f2;
+      text-align: center;
+    }
+
+    nav {
+      background: #222;
+      padding: 15px;
+    }
+
+    button {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #007bff;
+    }
+
+    #page {
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      max-width: 600px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px #ccc;
+    }
+
+    input {
+      display: block;
+      width: 90%;
+      padding: 12px;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+    }
+    .marquee{
+      background:#424D5A8A;
+      color:blue;
+      padding:14px;
+      font-size:23px;
+    }
+  </style>
+</head>
+
+<body>
+<marquee behavior="Welcome our website" direction="right" class='marquee'>Welcome to our website</marquee>
+</map>
+  <nav>
+    <button onclick="home()">Home</button>
+    <button onclick="about()">About</button>
+    <button onclick="login()">Login</button>
+    <button onclick="contact()">Contact</button>
+  </nav>
+
+  <div id="page">
+    <h1>Welcome!</h1>
+    <h2>I am sujal kafle.</h2>
+  </div>
+  <hr>
+  <h2>I am stilling learning python,html,css,js,and jsx</h2>
+  <hr>
+  <h3>My coder coach is Bishal somare magar</h3>
+  <textarea name="my" id="" placeholder='Write about this website' cols="30" rows="10"></textarea>
+  <button class='buttons'>Send</button>
+  
+
+  <script>
+
+    function home() {
+      document.getElementById("page").innerHTML = `
+        <h1>My name is Sujal kafle. I want to become a software engineer</h1>
+        <p>I am totally learning front-end development.</p>
+      `;
+    }
+
+    function about() {
+      document.getElementById("page").innerHTML = `
+        <h1>About Me</h1>
+        <p>
+          I am a beginner front-end developer. 
+          I am learning HTML, CSS and JavaScript 
+          to create beautiful and useful websites.
+        </p>
+      `;
+    }
+
+    function login() {
+      document.getElementById("page").innerHTML = `
+        <h1>Login</h1>
+        <input type="email" placeholder="Enter Email">
+        <input type="password" placeholder="Enter Password">
+        <button onclick="alert('Login clicked!')">Login</button>
+      `;
+    }
+
+    function contact() {
+      document.getElementById("page").innerHTML = `
+        <h1>Contact</h1>
+        <p>My number is 9840492295</p>
+      `;
+    }
+
+  </script>
+  
+
+</body>
+  </html>
