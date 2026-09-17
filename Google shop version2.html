@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Google Shop</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial;
+    background:#f5f7fb;
+    color:#222;
+    transition:.3s;
+}
+
+body.dark{
+    background:#121212;
+    color:white;
+}
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 3px 15px #0002;
+}
+
+.dark nav{
+    background:#202124;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#4285f4;
+}
+
+.links{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+.links button{
+    border:0;
+    background:none;
+    cursor:pointer;
+    font-size:15px;
+    color:inherit;
+}
+
+.links button:hover{
+    color:#4285f4;
+}
+
+.hero{
+    min-height:500px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+    background:linear-gradient(
+        120deg,
+        #e8f0fe,
+        #e6f4ea,
+        #fff
+    );
+    animation:background 5s infinite alternate;
+}
+
+.dark .hero{
+    background:linear-gradient(
+        120deg,
+        #17213b,
+        #173225,
+        #202124
+    );
+}
+
+.hero h1{
+    font-size:60px;
+    animation:up 1s;
+}
+
+.hero span{
+    color:#4285f4;
+}
+
+.hero p{
+    margin:20px;
+    font-size:19px;
+}
+
+.btn{
+    border:0;
+    background:#4285f4;
+    color:white;
+    padding:13px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    margin:5px;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+@keyframes up{
+
+    from{
+        opacity:0;
+        transform:translateY(50px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes background{
+
+    from{
+        background-position:left;
+    }
+
+    to{
+        background-position:right;
+    }
+
+}
+
+.section{
+    padding:60px 6%;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.search{
+    width:100%;
+    max-width:600px;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:30px;
+    display:block;
+    margin:20px auto;
+    outline:none;
+}
+
+.dark .search{
+    background:#292929;
+    color:white;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 5px 20px #0002;
+    transition:.3s;
+}
+
+.dark .card{
+    background:#202124;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card img{
+    width:100%;
+    height:190px;
+    object-fit:contain;
+}
+
+.card h3{
+    margin:10px 0;
+}
+
+.price{
+    color:#4285f4;
+    font-size:20px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.heart{
+    float:right;
+    border:0;
+    background:none;
+    font-size:23px;
+    cursor:pointer;
+}
+
+.popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:#0009;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.popup.show{
+    display:flex;
+}
+
+.box{
+    background:white;
+    color:#222;
+    width:100%;
+    max-width:450px;
+    padding:30px;
+    border-radius:20px;
+    position:relative;
+    animation:pop .3s;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.dark .box{
+    background:#202124;
+    color:white;
+}
+
+@keyframes pop{
+
+    from{
+        transform:scale(.7);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+
+}
+
+.close{
+    position:absolute;
+    right:15px;
+    top:15px;
+    border:0;
+    background:none;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.box input,
+.box textarea,
+.box select{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+.dark .box input,
+.dark .box textarea,
+.dark .box select{
+    background:#292929;
+    color:white;
+}
+
+.cart-item{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.cart-item img{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+}
+
+.cart-info{
+    flex:1;
+}
+
+footer{
+    background:#202124;
+    color:white;
+    text-align:center;
+    padding:40px 20px;
+}
+
+@media(max-width:650px){
+
+    nav{
+        padding:15px;
+    }
+
+    .links{
+        gap:7px;
+    }
+
+    .links button{
+        font-size:12px;
+    }
+
+    .hero h1{
+        font-size:38px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- EVERYTHING WILL BE CREATED WITH innerHTML -->
+
+<div id="app"></div>
+
+
+<script>
+
+/* ==================================
+   PRODUCTS
+================================== */
+
+let products = [
+
+{
+id:1,
+name:"Pixel Phone",
+price:699,
+category:"Phone",
+image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+description:"Modern smartphone with a beautiful display."
+},
+
+{
+id:2,
+name:"Android Phone",
+price:499,
+category:"Phone",
+image:"https://images.unsplash.com/photo-1598327105666-5b89351aff97",
+description:"Powerful smartphone for everyday use."
+},
+
+{
+id:3,
+name:"Pro Phone",
+price:799,
+category:"Phone",
+image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd",
+description:"Premium smartphone demo."
+},
+
+{
+id:4,
+name:"Budget Phone",
+price:299,
+category:"Phone",
+image:"https://images.unsplash.com/photo-1556656793-08538906a9f8",
+description:"Affordable smartphone."
+},
+
+{
+id:5,
+name:"Chromebook",
+price:599,
+category:"Laptop",
+image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+description:"Lightweight laptop for students."
+},
+
+{
+id:6,
+name:"Pro Laptop",
+price:1199,
+category:"Laptop",
+image:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
+description:"Powerful laptop for work."
+},
+
+{
+id:7,
+name:"Slim Laptop",
+price:899,
+category:"Laptop",
+image:"https://images.unsplash.com/photo-1531297484001-80022131f5a1",
+description:"Slim and portable laptop."
+},
+
+{
+id:8,
+name:"Student Laptop",
+price:449,
+category:"Laptop",
+image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+description:"Laptop for learning."
+},
+
+{
+id:9,
+name:"Wireless Headphones",
+price:129,
+category:"Audio",
+image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+description:"Wireless headphones with clear sound."
+},
+
+{
+id:10,
+name:"Studio Headphones",
+price:199,
+category:"Audio",
+image:"https://images.unsplash.com/photo-1546435770-a3e426bf472b",
+description:"Headphones for music."
+},
+
+{
+id:11,
+name:"Bluetooth Speaker",
+price:89,
+category:"Audio",
+image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1",
+description:"Portable Bluetooth speaker."
+},
+
+{
+id:12,
+name:"Mini Speaker",
+price:59,
+category:"Audio",
+image:"https://images.unsplash.com/photo-1589003077984-894e133dabab",
+description:"Small portable speaker."
+},
+
+{
+id:13,
+name:"Pixel Watch",
+price:299,
+category:"Watch",
+image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+description:"Modern smart watch."
+},
+
+{
+id:14,
+name:"Classic Watch",
+price:179,
+category:"Watch",
+image:"https://images.unsplash.com/photo-1546868871-7041f2a55e12",
+description:"Smart watch for daily use."
+},
+
+{
+id:15,
+name:"Sport Watch",
+price:149,
+category:"Watch",
+image:"https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1",
+description:"Sport smart watch."
+},
+
+{
+id:16,
+name:"Premium Watch",
+price:399,
+category:"Watch",
+image:"https://images.unsplash.com/photo-1524805444758-089113d48a6d",
+description:"Premium watch design."
+},
+
+{
+id:17,
+name:"Wireless Keyboard",
+price:69,
+category:"Accessory",
+image:"https://images.unsplash.com/photo-1587829741301-dc798b83add3",
+description:"Comfortable wireless keyboard."
+},
+
+{
+id:18,
+name:"Gaming Mouse",
+price:49,
+category:"Accessory",
+image:"https://images.unsplash.com/photo-1527814050087-3793815479db",
+description:"Responsive gaming mouse."
+},
+
+{
+id:19,
+name:"USB-C Hub",
+price:39,
+category:"Accessory",
+image:"https://images.unsplash.com/photo-1625842268584-8f3296236761",
+description:"Useful USB-C accessory."
+},
+
+{
+id:20,
+name:"Phone Stand",
+price:25,
+category:"Accessory",
+image:"https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb",
+description:"Simple phone stand."
+}
+
+];
+
+
+/* ==================================
+   DATA
+================================== */
+
+let cart = [];
+
+let wishlist = [];
+
+
+/* ==================================
+   MAIN PAGE WITH innerHTML
+================================== */
+
+function home(){
+
+document.getElementById("app").innerHTML = `
+
+<nav>
+
+    <div class="logo">
+        Google Shop
+    </div>
+
+    <div class="links">
+
+        <button onclick="home()">
+            Home
+        </button>
+
+        <button onclick="shop()">
+            Shop
+        </button>
+
+        <button onclick="openWishlist()">
+            ❤️
+        </button>
+
+        <button onclick="openCart()">
+            🛒 <span id="cartCount">0</span>
+        </button>
+
+        <button onclick="openLogin()">
+            Login
+        </button>
+
+        <button onclick="darkMode()">
+            🌙
+        </button>
+
+    </div>
+
+</nav>
+
+
+<section class="hero">
+
+    <div>
+
+        <h1>
+            Welcome to
+            <span>Google Shop</span>
+        </h1>
+
+        <p>
+            Discover amazing technology
+            and smart products.
+        </p>
+
+        <button
+            class="btn"
+            onclick="shop()">
+
+            Shop Now 🚀
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="openSignup()">
+
+            Sign Up
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="title">
+
+        <h2>
+            Why Google Shop?
+        </h2>
+
+        <p>
+            Simple. Fast. Modern.
+        </p>
+
+    </div>
+
+    <div class="products">
+
+        <div class="card">
+
+            <h2>🚚</h2>
+
+            <h3>Fast Delivery</h3>
+
+            <p>
+                Quick demo delivery system.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>🔒</h2>
+
+            <h3>Secure</h3>
+
+            <p>
+                Demo secure shopping experience.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>💳</h2>
+
+            <h3>Easy Checkout</h3>
+
+            <p>
+                Simple demo checkout.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <h2>
+        Google Shop
+    </h2>
+
+    <p>
+        Demo shopping website
+    </p>
+
+    <br>
+
+    <button
+        class="btn"
+        onclick="contact()">
+
+        Contact Us
+
+    </button>
+
+    <p>
+        © 2026 Google Shop Demo
+    </p>
+
+</footer>
+
+`;
+
+}
+
+
+/* ==================================
+   SHOP PAGE
+================================== */
+
+function shop(){
+
+document.getElementById("app").innerHTML = `
+
+<nav>
+
+    <div class="logo">
+        Google Shop
+    </div>
+
+    <div class="links">
+
+        <button onclick="home()">
+            Home
+        </button>
+
+        <button onclick="shop()">
+            Shop
+        </button>
+
+        <button onclick="openWishlist()">
+            ❤️
+        </button>
+
+        <button onclick="openCart()">
+            🛒 <span id="cartCount">0</span>
+        </button>
+
+        <button onclick="openLogin()">
+            Login
+        </button>
+
+        <button onclick="darkMode()">
+            🌙
+        </button>
+
+    </div>
+
+</nav>
+
+
+<section class="section">
+
+    <div class="title">
+
+        <h2>
+            All Products
+        </h2>
+
+        <p>
+            20 products
+        </p>
+
+    </div>
+
+
+    <input
+        class="search"
+        id="search"
+        placeholder="🔎 Search product..."
+        onkeyup="searchProduct()">
+
+
+    <div
+        class="products"
+        id="productList">
+
+    </div>
+
+</section>
+
+`;
+
+displayProducts(products);
+
+}
+
+
+/* ==================================
+   DISPLAY PRODUCTS
+================================== */
+
+function displayProducts(list){
+
+let html = "";
+
+
+list.forEach(function(product){
+
+let liked =
+wishlist.includes(product.id)
+? "❤️"
+: "♡";
+
+
+html += `
+
+<div class="card">
+
+    <button
+        class="heart"
+        onclick="toggleWishlist(${product.id})">
+
+        ${liked}
+
+    </button>
+
+    <img
+        src="${product.image}"
+        class="card img">
+
+    <h3>
+        ${product.name}
+    </h3>
+
+    <p>
+        ${product.description}
+    </p>
+
+    <div class="price">
+        $${product.price}
+    </div>
+
+    <button
+        class="btn"
+        onclick="details(${product.id})">
+
+        Details
+
+    </button>
+
+    <button
+        class="btn"
+        onclick="addCart(${product.id})">
+
+        Add 🛒
+
+    </button>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById(
+"productList"
+).innerHTML = html;
+
+}
+
+
+/* ==================================
+   SEARCH
+================================== */
+
+function searchProduct(){
+
+let value =
+document.getElementById(
+"search"
+).value.toLowerCase();
+
+
+let result =
+products.filter(function(product){
+
+return (
+product.name
+.toLowerCase()
+.includes(value)
+||
+product.category
+.toLowerCase()
+.includes(value)
+);
+
+});
+
+
+displayProducts(result);
+
+}
+
+
+/* ==================================
+   ADD CART
+================================== */
+
+function addCart(id){
+
+let product =
+products.find(
+p => p.id === id
+);
+
+
+let existing =
+cart.find(
+p => p.id === id
+);
+
+
+if(existing){
+
+existing.quantity++;
+
+}else{
+
+cart.push({
+
+...product,
+
+quantity:1
+
+});
+
+}
+
+
+updateCart();
+
+toast(
+product.name +
+" added to cart 🛒"
+);
+
+}
+
+
+/* ==================================
+   CART COUNT
+================================== */
+
+function updateCart(){
+
+let total = 0;
+
+
+cart.forEach(function(item){
+
+total += item.quantity;
+
+});
+
+
+let count =
+document.getElementById(
+"cartCount"
+);
+
+
+if(count){
+
+count.innerHTML = total;
+
+}
+
+}
+
+
+/* ==================================
+   CART POPUP
+================================== */
+
+function openCart(){
+
+let html = "";
+
+
+cart.forEach(function(item){
+
+html += `
+
+<div class="cart-item">
+
+    <img
+        src="${item.image}">
+
+    <div class="cart-info">
+
+        <b>
+            ${item.name}
+        </b>
+
+        <p>
+            $${item.price}
+        </p>
+
+        <button
+            onclick="quantity(${item.id},-1)">
+            -
+        </button>
+
+        ${item.quantity}
+
+        <button
+            onclick="quantity(${item.id},1)">
+            +
+        </button>
+
+    </div>
+
+    <button
+        onclick="removeCart(${item.id})">
+
+        🗑️
+
+    </button>
+
+</div>
+
+`;
+
+});
+
+
+let total =
+cart.reduce(
+(sum,item) =>
+sum + item.price * item.quantity,
+0
+);
+
+
+document.body.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="popup show" id="cartPopup">
+
+<div class="box">
+
+<button
+class="close"
+onclick="closePopup('cartPopup')">
+❌
+</button>
+
+<h2>
+🛒 Your Cart
+</h2>
+
+${html || "<p>Cart is empty.</p>"}
+
+<h2>
+Total: $${total}
+</h2>
+
+<button
+class="btn"
+onclick="checkout()">
+
+Checkout 💳
+
+</button>
+
+</div>
+
+</div>
+
+`
+
+);
+
+}
+
+
+/* ==================================
+   QUANTITY
+================================== */
+
+function quantity(id,amount){
+
+let item =
+cart.find(
+p => p.id === id
+);
+
+
+if(item){
+
+item.quantity += amount;
+
+}
+
+
+if(item &&
+item.quantity <= 0){
+
+removeCart(id);
+
+return;
+
+}
+
+
+closePopup("cartPopup");
+
+updateCart();
+
+openCart();
+
+}
+
+
+/* ==================================
+   REMOVE CART
+================================== */
+
+function removeCart(id){
+
+cart =
+cart.filter(
+item => item.id !== id
+);
+
+closePopup("cartPopup");
+
+updateCart();
+
+openCart();
+
+}
+
+
+/* ==================================
+   WISHLIST
+================================== */
+
+function toggleWishlist(id){
+
+if(
+wishlist.includes(id)
+){
+
+wishlist =
+wishlist.filter(
+item => item !== id
+);
+
+}else{
+
+wishlist.push(id);
+
+}
+
+
+if(
+document.getElementById("productList")
+){
+
+displayProducts(
+products
+);
+
+}
+
+
+toast("Wishlist updated ❤️");
+
+}
+
+
+/* ==================================
+   WISHLIST POPUP
+================================== */
+
+function openWishlist(){
+
+let html = "";
+
+
+wishlist.forEach(function(id){
+
+let product =
+products.find(
+p => p.id === id
+);
+
+
+html += `
+
+<div class="cart-item">
+
+<img src="${product.image}">
+
+<div class="cart-info">
+
+<b>
+${product.name}
+</b>
+
+<p>
+$${product.price}
+</p>
+
+</div>
+
+<button
+class="btn"
+onclick="addCart(${product.id})">
+
+Add
+
+</button>
+
+</div>
+
+`;
+
+});
+
+
+document.body.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="popup show"
+id="wishlistPopup">
+
+<div class="box">
+
+<button
+class="close"
+onclick="closePopup('wishlistPopup')">
+❌
+</button>
+
+<h2>
+❤️ Wishlist
+</h2>
+
+${html || "<p>Wishlist is empty.</p>"}
+
+</div>
+
+</div>
+
+`
+
+);
+
+}
+
+
+/* ==================================
+   PRODUCT DETAILS
+================================== */
+
+function details(id){
+
+let product =
+products.find(
+p => p.id === id
+);
+
+
+document.body.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="popup show"
+id="detailsPopup">
+
+<div class="box">
+
+<button
+class="close"
+onclick="closePopup('detailsPopup')">
+❌
+</button>
+
+<img
+src="${product.image}"
+style="
+width:100%;
+height:250px;
+object-fit:contain;
+">
+
+<h2>
+${product.name}
+</h2>
+
+<h2 style="color:#4285f4">
+$${product.price}
+</h2>
+
+<p>
+${product.description}
+</p>
+
+<br>
+
+<p>
+⭐⭐⭐⭐⭐
+</p>
+
+<button
+class="btn"
+onclick="addCart(${product.id})">
+
+Add To Cart 🛒
+
+</button>
+
+</div>
+
+</div>
+
+`
+
+);
+
+}
+
+
+/* ==================================
+   LOGIN
+================================== */
+
+function openLogin(){
+
+document.body.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="popup show"
+id="loginPopup">
+
+<div class="box">
+
+<button
+class="close"
+onclick="closePopup('loginPopup')">
+❌
+</button>
+
+<h2>
+Login
+</h2>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
+<button
+class="btn"
+onclick="login()">
+
+Login
+
+</button>
+
+<p>
+Don't have an account?
+<button
+onclick="closePopup('loginPopup');openSignup()">
+
+Sign Up
+
+</button>
+</p>
+
+</div>
+
+</div>
+
+`
+
+);
+
+}
+
+
+/* ==================================
+   LOGIN FUNCTION
+================================== */
+
+function login(){
+
+let email =
+document.getElementById(
+"loginEmail"
+).value;
+
+
+let password =
+document.getElementById(
+"loginPassword"
+).value;
+
+
+if(!email || !password){
+
+toast(
+"Please fill all fields"
+);
+
+return;
+
+}
+
+
+closePopup("loginPopup");
+
+toast(
+"Login successful 🎉"
+);
+
+}
+
+
+/* ==================================
+   SIGN UP
+================================== */
+
+function openSignup(){
+
+document.body.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="popup show"
+id="signupPopup">
+
+<div class="box">
+
+<button
+class="close"
+onclick="closePopup('signupPopup')">
+❌
+</button>
+
+<h2>
+Create Account
+</h2>
+
+<input
+id="signupName"
+placeholder="Full Name">
+
+<input
+id="signupEmail"
+type="email"
+placeholder="Email">
+
+<input
+id="signupPassword"
+type="password"
+placeholder="Password">
+
+<button
+class="btn"
+onclick="signup()">
+
+Sign Up
+
+</button>
+
+</div>
+
+</div>
+
+`
+
+);
+
+}
+
+
+/* ==================================
+   SIGNUP FUNCTION
+================================== */
+
+function signup(){
+
+let name =
+document.getElementById(
+"signupName"
+).value;
+
+
+let email =
+document.getElementById(
+"signupEmail"
+).value;
+
+
+let password =
+document.getElementById(
+"signupPassword"
+).value;
+
+
+if(
+!name ||
+!email ||
+!password
+){
+
+toast(
+"Please fill all fields"
+);
+
+return;
+
+}
+
+
+closePopup("signupPopup");
+
+toast(
+"Account created 🎉"
+);
+
+}
+
+
+/* ==================================
+   CHECKOUT
+================================== */
+
+function checkout(){
+
+closePopup("cartPopup");
+
+
+document.body.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="popup show"
+id="checkoutPopup">
+
+<div class="box">
+
+<button
+class="close"
+onclick="closePopup('checkoutPopup')">
+❌
+</button>
+
+<h2>
+💳 Demo Checkout
+</h2>
+
+<p>
+No real payment is processed.
+</p>
+
+<input
+id="checkoutName"
+placeholder="Full Name">
+
+<input
+id="checkoutAddress"
+placeholder="Address">
+
+<input
+id="checkoutPhone"
+placeholder="Phone">
+
+<select id="payment">
+
+<option>
+Cash on Delivery
+</option>
+
+<option>
+Demo Card
+</option>
+
+</select>
+
+<button
+class="btn"
+onclick="placeOrder()">
+
+Place Order
+
+</button>
+
+</div>
+
+</div>
+
+`
+
+);
+
+}
+
+
+/* ==================================
+   PLACE ORDER
+================================== */
+
+function placeOrder()
