@@ -1,0 +1,2718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Shop - Demo Store</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fb;
+    color:#202124;
+    transition:0.3s;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+    background:#121212;
+    color:#fff;
+}
+
+body.dark nav,
+body.dark .product-card,
+body.dark .category-card,
+body.dark .contact-box,
+body.dark .auth-box,
+body.dark .details-box,
+body.dark .checkout-box,
+body.dark .cart-box,
+body.dark .wishlist-box{
+    background:#1e1e1e;
+    color:#fff;
+}
+
+body.dark .product-card p,
+body.dark .contact-box p{
+    color:#ccc;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:70px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    box-shadow:0 3px 15px #0002;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:bold;
+    color:#4285f4;
+}
+
+.logo span{
+    color:#34a853;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+    font-size:15px;
+    transition:0.2s;
+}
+
+.nav-links a:hover{
+    color:#4285f4;
+}
+
+.nav-btn{
+    border:0;
+    padding:9px 13px;
+    border-radius:20px;
+    cursor:pointer;
+    background:#4285f4;
+    color:white;
+}
+
+.icon-btn{
+    border:0;
+    background:transparent;
+    font-size:20px;
+    cursor:pointer;
+    color:inherit;
+}
+
+.menu{
+    display:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:550px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(
+        120deg,
+        #e8f0fe,
+        #e6f4ea,
+        #fff
+    );
+    overflow:hidden;
+}
+
+body.dark .hero{
+    background:linear-gradient(
+        120deg,
+        #17213b,
+        #173225,
+        #202124
+    );
+}
+
+.hero-content{
+    max-width:800px;
+    animation:heroIn 1s ease;
+}
+
+.hero h1{
+    font-size:65px;
+    margin-bottom:20px;
+}
+
+.hero h1 .blue{
+    color:#4285f4;
+}
+
+.hero h1 .green{
+    color:#34a853;
+}
+
+.hero p{
+    font-size:20px;
+    color:#5f6368;
+    margin-bottom:30px;
+}
+
+body.dark .hero p{
+    color:#ddd;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn{
+    border:0;
+    padding:14px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.primary-btn{
+    background:#4285f4;
+    color:white;
+}
+
+.secondary-btn{
+    background:#fff;
+    color:#4285f4;
+    border:2px solid #4285f4;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+    transform:translateY(-4px);
+}
+
+@keyframes heroIn{
+    from{
+        opacity:0;
+        transform:translateY(50px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.section{
+    padding:70px 6%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.section-title h2{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.section-title p{
+    color:#777;
+}
+
+body.dark .section-title p{
+    color:#bbb;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-area{
+    display:flex;
+    justify-content:center;
+    margin-bottom:35px;
+}
+
+.search-box{
+    width:100%;
+    max-width:650px;
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    padding:17px 50px 17px 20px;
+    border:1px solid #ddd;
+    border-radius:35px;
+    outline:none;
+    font-size:16px;
+    background:#fff;
+}
+
+body.dark .search-box input{
+    background:#252525;
+    color:#fff;
+    border-color:#555;
+}
+
+.search-icon{
+    position:absolute;
+    right:20px;
+    top:14px;
+    font-size:22px;
+}
+
+/* =========================
+   CATEGORIES
+========================= */
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.category-card{
+    background:white;
+    padding:30px 15px;
+    text-align:center;
+    border-radius:20px;
+    box-shadow:0 5px 20px #0001;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.category-card:hover{
+    transform:translateY(-8px);
+}
+
+.category-card .emoji{
+    font-size:45px;
+    margin-bottom:15px;
+}
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+
+.product-card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 5px 20px #0001;
+    position:relative;
+    overflow:hidden;
+    transition:0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px #0002;
+}
+
+.product-image{
+    width:100%;
+    height:210px;
+    object-fit:contain;
+    border-radius:15px;
+}
+
+.wishlist-heart{
+    position:absolute;
+    top:15px;
+    right:15px;
+    width:38px;
+    height:38px;
+    border:0;
+    border-radius:50%;
+    background:white;
+    box-shadow:0 2px 10px #0002;
+    cursor:pointer;
+    font-size:19px;
+    z-index:2;
+}
+
+.wishlist-heart.active{
+    color:#ea4335;
+}
+
+.product-card h3{
+    margin:15px 0 8px;
+}
+
+.product-card p{
+    color:#777;
+    font-size:14px;
+    min-height:35px;
+}
+
+.price{
+    color:#4285f4;
+    font-size:21px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.rating{
+    color:#fbbc04;
+    margin-bottom:10px;
+}
+
+.product-actions{
+    display:flex;
+    gap:8px;
+}
+
+.product-actions button{
+    flex:1;
+    border:0;
+    padding:10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.view-btn{
+    background:#e8f0fe;
+    color:#1967d2;
+}
+
+.add-btn{
+    background:#4285f4;
+    color:white;
+}
+
+/* =========================
+   NO RESULTS
+========================= */
+
+.no-results{
+    display:none;
+    text-align:center;
+    padding:40px;
+    font-size:20px;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+    background:#e8f0fe;
+}
+
+body.dark .contact{
+    background:#181818;
+}
+
+.contact-container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    max-width:1000px;
+    margin:auto;
+}
+
+.contact-box{
+    background:#fff;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px #0001;
+}
+
+.contact-box h3{
+    margin-bottom:20px;
+}
+
+.contact-info{
+    margin:18px 0;
+}
+
+.contact-info strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.contact-form input,
+.contact-form textarea{
+    width:100%;
+    padding:13px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+.contact-form textarea{
+    height:120px;
+    resize:none;
+}
+
+body.dark .contact-form input,
+body.dark .contact-form textarea{
+    background:#292929;
+    color:#fff;
+    border-color:#555;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#202124;
+    color:white;
+    padding:50px 6% 20px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+    margin-bottom:35px;
+}
+
+footer h3{
+    margin-bottom:15px;
+}
+
+footer p{
+    color:#bbb;
+    line-height:1.7;
+}
+
+.footer-bottom{
+    text-align:center;
+    border-top:1px solid #444;
+    padding-top:20px;
+    color:#aaa;
+}
+
+/* =========================
+   POPUP
+========================= */
+
+.popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    background:#0009;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.popup.show{
+    display:flex;
+}
+
+.auth-box,
+.details-box,
+.cart-box,
+.wishlist-box,
+.checkout-box{
+    width:100%;
+    max-width:500px;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    position:relative;
+    max-height:90vh;
+    overflow:auto;
+    animation:popupIn .3s ease;
+}
+
+@keyframes popupIn{
+    from{
+        opacity:0;
+        transform:scale(.8);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    right:18px;
+    border:0;
+    background:transparent;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.auth-box h2,
+.details-box h2,
+.cart-box h2,
+.wishlist-box h2,
+.checkout-box h2{
+    margin-bottom:20px;
+}
+
+.auth-tabs{
+    display:flex;
+    margin-bottom:20px;
+}
+
+.auth-tabs button{
+    flex:1;
+    padding:12px;
+    border:0;
+    cursor:pointer;
+}
+
+.auth-tabs button.active{
+    background:#4285f4;
+    color:white;
+}
+
+.auth-box input{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+.auth-submit{
+    width:100%;
+    border:0;
+    padding:13px;
+    margin-top:10px;
+    background:#4285f4;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* =========================
+   PRODUCT DETAILS
+========================= */
+
+.details-image{
+    width:100%;
+    height:250px;
+    object-fit:contain;
+}
+
+.details-price{
+    color:#4285f4;
+    font-size:25px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.details-description{
+    color:#666;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+body.dark .details-description{
+    color:#ccc;
+}
+
+/* =========================
+   CART
+========================= */
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.cart-item img{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+}
+
+.cart-item-info{
+    flex:1;
+}
+
+.quantity{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.quantity button{
+    border:0;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.remove-btn{
+    border:0;
+    background:#ea4335;
+    color:white;
+    padding:7px 10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.cart-total{
+    font-size:22px;
+    font-weight:bold;
+    text-align:right;
+    margin:20px 0;
+}
+
+/* =========================
+   CHECKOUT
+========================= */
+
+.checkout-box input{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+.checkout-box select{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:#202124;
+    color:white;
+    padding:15px 20px;
+    border-radius:10px;
+    z-index:5000;
+    transform:translateX(150%);
+    transition:.4s;
+}
+
+.toast.show{
+    transform:translateX(0);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .product-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .categories{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+
+    .nav-links{
+        display:none;
+        position:absolute;
+        top:70px;
+        left:0;
+        width:100%;
+        background:white;
+        padding:20px;
+        flex-direction:column;
+        box-shadow:0 5px 15px #0002;
+    }
+
+    body.dark .nav-links{
+        background:#1e1e1e;
+    }
+
+    .nav-links.open{
+        display:flex;
+    }
+
+    .menu{
+        display:block;
+    }
+
+    .hero h1{
+        font-size:43px;
+    }
+
+    .hero p{
+        font-size:17px;
+    }
+
+    .product-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .contact-container{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:500px){
+
+    nav{
+        padding:0 15px;
+    }
+
+    .logo{
+        font-size:21px;
+    }
+
+    .section{
+        padding:50px 15px;
+    }
+
+    .hero{
+        min-height:480px;
+    }
+
+    .hero h1{
+        font-size:35px;
+    }
+
+    .product-grid{
+        grid-template-columns:1fr;
+    }
+
+    .categories{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .product-image{
+        height:230px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav>
+
+    <div class="logo">
+        Google <span>Shop</span>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+
+        <a href="#home">Home</a>
+
+        <a href="#shop">Shop</a>
+
+        <a href="#categories">Categories</a>
+
+        <a href="#contact">Contact</a>
+
+        <button class="nav-btn" onclick="openAuth()">
+            Login
+        </button>
+
+        <button class="icon-btn" onclick="openWishlist()">
+            ❤️
+        </button>
+
+        <button class="icon-btn" onclick="openCart()">
+            🛒 <span id="cartCount">0</span>
+        </button>
+
+        <button class="icon-btn" onclick="toggleDark()">
+            🌙
+        </button>
+
+    </div>
+
+    <div class="menu" onclick="toggleMenu()">
+        ☰
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <h1>
+            Welcome to
+            <span class="blue">Google</span>
+            <span class="green">Shop</span>
+        </h1>
+
+        <p>
+            Explore smart technology, useful gadgets,
+            accessories and more.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button
+                class="primary-btn"
+                onclick="goShop()">
+                Shop Now 🚀
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="openAuth()">
+                Join Us
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CATEGORIES
+========================= -->
+
+<section class="section" id="categories">
+
+    <div class="section-title">
+
+        <h2>Categories</h2>
+
+        <p>
+            Find products by category
+        </p>
+
+    </div>
+
+    <div class="categories">
+
+        <div
+            class="category-card"
+            onclick="filterCategory('Phone')">
+
+            <div class="emoji">📱</div>
+
+            <h3>Phones</h3>
+
+        </div>
+
+        <div
+            class="category-card"
+            onclick="filterCategory('Laptop')">
+
+            <div class="emoji">💻</div>
+
+            <h3>Laptops</h3>
+
+        </div>
+
+        <div
+            class="category-card"
+            onclick="filterCategory('Audio')">
+
+            <div class="emoji">🎧</div>
+
+            <h3>Audio</h3>
+
+        </div>
+
+        <div
+            class="category-card"
+            onclick="filterCategory('Watch')">
+
+            <div class="emoji">⌚</div>
+
+            <h3>Watches</h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SHOP
+========================= -->
+
+<section class="section" id="shop">
+
+    <div class="section-title">
+
+        <h2>Our Products</h2>
+
+        <p>
+            20 products available
+        </p>
+
+    </div>
+
+    <div class="search-area">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔎 Search products..."
+                onkeyup="searchProducts()">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="product-grid"
+        id="productGrid">
+    </div>
+
+    <div
+        class="no-results"
+        id="noResults">
+
+        😔 No products found.
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="section contact" id="contact">
+
+    <div class="section-title">
+
+        <h2>Contact Us</h2>
+
+        <p>
+            Have a question? Send us a message.
+        </p>
+
+    </div>
+
+    <div class="contact-container">
+
+        <div class="contact-box">
+
+            <h3>Get In Touch</h3>
+
+            <div class="contact-info">
+
+                <strong>📧 Email</strong>
+
+                <p>
+                    support@googleshop.demo
+                </p>
+
+            </div>
+
+            <div class="contact-info">
+
+                <strong>📞 Phone</strong>
+
+                <p>
+                    +977 9800000000
+                </p>
+
+            </div>
+
+            <div class="contact-info">
+
+                <strong>📍 Location</strong>
+
+                <p>
+                    Nepal
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="contact-box">
+
+            <form
+                class="contact-form"
+                onsubmit="sendMessage(event)">
+
+                <input
+                    id="contactName"
+                    type="text"
+                    placeholder="Your name"
+                    required>
+
+                <input
+                    id="contactEmail"
+                    type="email"
+                    placeholder="Your email"
+                    required>
+
+                <textarea
+                    id="contactMessage"
+                    placeholder="Your message"
+                    required></textarea>
+
+                <button
+                    class="primary-btn"
+                    type="submit">
+
+                    Send Message
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-grid">
+
+        <div>
+
+            <h3>Google Shop</h3>
+
+            <p>
+                A modern demo shopping website
+                built with HTML, CSS and JavaScript.
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <p>Home</p>
+            <p>Shop</p>
+            <p>Categories</p>
+            <p>Contact</p>
+
+        </div>
+
+        <div>
+
+            <h3>Services</h3>
+
+            <p>Online Shopping</p>
+            <p>Product Support</p>
+            <p>Demo Checkout</p>
+            <p>Customer Support</p>
+
+        </div>
+
+        <div>
+
+            <h3>Follow</h3>
+
+            <p>🌐 Website</p>
+            <p>📱 Social Media</p>
+            <p>▶️ YouTube</p>
+            <p>📸 Instagram</p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © 2026 Google Shop Demo — Built for learning
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     AUTH POPUP
+========================= -->
+
+<div
+    class="popup"
+    id="authPopup"
+    onclick="outsideClose(event,'authPopup')">
+
+    <div class="auth-box">
+
+        <button
+            class="close"
+            onclick="closePopup('authPopup')">
+            ❌
+        </button>
+
+        <h2 id="authTitle">
+            Login
+        </h2>
+
+        <div class="auth-tabs">
+
+            <button
+                class="active"
+                id="loginTab"
+                onclick="showLogin()">
+
+                Login
+
+            </button>
+
+            <button
+                id="signupTab"
+                onclick="showSignup()">
+
+                Sign Up
+
+            </button>
+
+        </div>
+
+        <div id="loginForm">
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email">
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password">
+
+            <button
+                class="auth-submit"
+                onclick="loginUser()">
+
+                Login
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="signupForm"
+            style="display:none">
+
+            <input
+                type="text"
+                id="signupName"
+                placeholder="Full name">
+
+            <input
+                type="email"
+                id="signupEmail"
+                placeholder="Email">
+
+            <input
+                type="password"
+                id="signupPassword"
+                placeholder="Password">
+
+            <button
+                class="auth-submit"
+                onclick="signupUser()">
+
+                Create Account
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PRODUCT DETAILS POPUP
+========================= -->
+
+<div
+    class="popup"
+    id="detailsPopup"
+    onclick="outsideClose(event,'detailsPopup')">
+
+    <div class="details-box">
+
+        <button
+            class="close"
+            onclick="closePopup('detailsPopup')">
+            ❌
+        </button>
+
+        <img
+            id="detailsImage"
+            class="details-image"
+            src="">
+
+        <h2 id="detailsName">
+            Product
+        </h2>
+
+        <div
+            id="detailsPrice"
+            class="details-price">
+        </div>
+
+        <div
+            id="detailsRating"
+            class="rating">
+        </div>
+
+        <p
+            id="detailsDescription"
+            class="details-description">
+        </p>
+
+        <button
+            id="detailsCartButton"
+            class="primary-btn">
+
+            Add To Cart 🛒
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     CART POPUP
+========================= -->
+
+<div
+    class="popup"
+    id="cartPopup"
+    onclick="outsideClose(event,'cartPopup')">
+
+    <div class="cart-box">
+
+        <button
+            class="close"
+            onclick="closePopup('cartPopup')">
+            ❌
+        </button>
+
+        <h2>
+            🛒 Your Cart
+        </h2>
+
+        <div id="cartItems"></div>
+
+        <div
+            id="cartTotal"
+            class="cart-total">
+            Total: $0
+        </div>
+
+        <button
+            class="primary-btn"
+            style="width:100%"
+            onclick="openCheckout()">
+
+            Checkout 💳
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     WISHLIST POPUP
+========================= -->
+
+<div
+    class="popup"
+    id="wishlistPopup"
+    onclick="outsideClose(event,'wishlistPopup')">
+
+    <div class="wishlist-box">
+
+        <button
+            class="close"
+            onclick="closePopup('wishlistPopup')">
+            ❌
+        </button>
+
+        <h2>
+            ❤️ Wishlist
+        </h2>
+
+        <div id="wishlistItems"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     CHECKOUT POPUP
+========================= -->
+
+<div
+    class="popup"
+    id="checkoutPopup"
+    onclick="outsideClose(event,'checkoutPopup')">
+
+    <div class="checkout-box">
+
+        <button
+            class="close"
+            onclick="closePopup('checkoutPopup')">
+            ❌
+        </button>
+
+        <h2>
+            💳 Demo Checkout
+        </h2>
+
+        <p style="margin-bottom:15px;color:#777">
+            This is a demo checkout. No real payment is processed.
+        </p>
+
+        <input
+            id="checkoutName"
+            type="text"
+            placeholder="Full name">
+
+        <input
+            id="checkoutAddress"
+            type="text"
+            placeholder="Delivery address">
+
+        <input
+            id="checkoutPhone"
+            type="tel"
+            placeholder="Phone number">
+
+        <select id="paymentMethod">
+
+            <option value="">
+                Select payment method
+            </option>
+
+            <option>
+                Cash on Delivery
+            </option>
+
+            <option>
+                Demo Card
+            </option>
+
+        </select>
+
+        <button
+            class="primary-btn"
+            style="width:100%;margin-top:10px"
+            onclick="placeOrder()">
+
+            Place Demo Order
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TOAST
+========================= -->
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+
+<script>
+
+/* =========================
+   PRODUCTS
+========================= */
+
+const products = [
+
+{
+    id:1,
+    name:"Pixel Smartphone",
+    category:"Phone",
+    price:699,
+    image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+    rating:"★★★★★",
+    description:"A modern smartphone demo product with a beautiful display and powerful performance."
+},
+
+{
+    id:2,
+    name:"Android Phone",
+    category:"Phone",
+    price:499,
+    image:"https://images.unsplash.com/photo-1598327105666-5b89351aff97",
+    rating:"★★★★☆",
+    description:"A stylish smartphone for everyday use."
+},
+
+{
+    id:3,
+    name:"Pro Smartphone",
+    category:"Phone",
+    price:799,
+    image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd",
+    rating:"★★★★★",
+    description:"Premium smartphone demo with modern design."
+},
+
+{
+    id:4,
+    name:"Budget Phone",
+    category:"Phone",
+    price:299,
+    image:"https://images.unsplash.com/photo-1556656793-08538906a9f8",
+    rating:"★★★★☆",
+    description:"Affordable phone for everyday tasks."
+},
+
+{
+    id:5,
+    name:"Chromebook Laptop",
+    category:"Laptop",
+    price:599,
+    image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+    rating:"★★★★★",
+    description:"Lightweight laptop suitable for school, work and browsing."
+},
+
+{
+    id:6,
+    name:"Pro Laptop",
+    category:"Laptop",
+    price:1199,
+    image:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
+    rating:"★★★★★",
+    description:"Powerful laptop designed for productivity."
+},
+
+{
+    id:7,
+    name:"Slim Laptop",
+    category:"Laptop",
+    price:899,
+    image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+    rating:"★★★★☆",
+    description:"Slim and portable laptop."
+},
+
+{
+    id:8,
+    name:"Student Laptop",
+    category:"Laptop",
+    price:449,
+    image:"https://images.unsplash.com/photo-1531297484001-80022131f5a1",
+    rating:"★★★★☆",
+    description:"Simple laptop for learning and daily work."
+},
+
+{
+    id:9,
+    name:"Wireless Headphones",
+    category:"Audio",
+    price:129,
+    image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+    rating:"★★★★★",
+    description:"Comfortable wireless headphones with clear sound."
+},
+
+{
+    id:10,
+    name:"Studio Headphones",
+    category:"Audio",
+    price:199,
+    image:"https://images.unsplash.com/photo-1546435770-a3e426bf472b",
+    rating:"★★★★★",
+    description:"Premium headphones for music lovers."
+},
+
+{
+    id:11,
+    name:"Bluetooth Speaker",
+    category:"Audio",
+    price:89,
+    image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1",
+    rating:"★★★★☆",
+    description:"Portable speaker for your favorite music."
+},
+
+{
+    id:12,
+    name:"Mini Speaker",
+    category:"Audio",
+    price:59,
+    image:"https://images.unsplash.com/photo-1589003077984-894e133dabab",
+    rating:"★★★★☆",
+    description:"Small and portable Bluetooth speaker."
+},
+
+{
+    id:13,
+    name:"Pixel Watch",
+    category:"Watch",
+    price:299,
+    image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+    rating:"★★★★★",
+    description:"Smart watch with a modern design."
+},
+
+{
+    id:14,
+    name:"Classic Smart Watch",
+    category:"Watch",
+    price:179,
+    image:"https://images.unsplash.com/photo-1546868871-7041f2a55e12",
+    rating:"★★★★☆",
+    description:"Smart watch for everyday activities."
+},
+
+{
+    id:15,
+    name:"Sport Watch",
+    category:"Watch",
+    price:149,
+    image:"https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1",
+    rating:"★★★★☆",
+    description:"Sporty smart watch demo."
+},
+
+{
+    id:16,
+    name:"Premium Watch",
+    category:"Watch",
+    price:399,
+    image:"https://images.unsplash.com/photo-1524805444758-089113d48a6d",
+    rating:"★★★★★",
+    description:"Elegant premium watch design."
+},
+
+{
+    id:17,
+    name:"Wireless Keyboard",
+    category:"Accessory",
+    price:69,
+    image:"https://images.unsplash.com/photo-1587829741301-dc798b83add3",
+    rating:"★★★★☆",
+    description:"Comfortable wireless keyboard."
+},
+
+{
+    id:18,
+    name:"Gaming Mouse",
+    category:"Accessory",
+    price:49,
+    image:"https://images.unsplash.com/photo-1527814050087-3793815479db",
+    rating:"★★★★★",
+    description:"Responsive mouse for gaming and work."
+},
+
+{
+    id:19,
+    name:"USB-C Hub",
+    category:"Accessory",
+    price:39,
+    image:"https://images.unsplash.com/photo-1625842268584-8f3296236761",
+    rating:"★★★★☆",
+    description:"Useful connectivity accessory."
+},
+
+{
+    id:20,
+    name:"Phone Stand",
+    category:"Accessory",
+    price:25,
+    image:"https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb",
+    rating:"★★★★☆",
+    description:"Simple stand for your smartphone."
+}
+
+];
+
+
+/* =========================
+   STATE
+========================= */
+
+let cart = [];
+
+let wishlist = [];
+
+let currentProducts = products;
+
+
+/* =========================
+   DISPLAY PRODUCTS
+========================= */
+
+function displayProducts(list){
+
+    const grid =
+        document.getElementById("productGrid");
+
+    const noResults =
+        document.getElementById("noResults");
+
+    grid.innerHTML = "";
+
+    if(list.length === 0){
+
+        noResults.style.display = "block";
+
+        return;
+
+    }
+
+    noResults.style.display = "none";
+
+
+    list.forEach(function(product){
+
+        const card =
+            document.createElement("div");
+
+        card.className = "product-card";
+
+        const liked =
+            wishlist.includes(product.id);
+
+        card.innerHTML = `
+
+            <button
+                class="wishlist-heart ${liked ? "active" : ""}"
+                onclick="toggleWishlist(${product.id})">
+
+                ${liked ? "❤️" : "♡"}
+
+            </button>
+
+            <img
+                class="product-image"
+                src="${product.image}"
+                alt="${product.name}">
+
+            <h3>
+                ${product.name}
+            </h3>
+
+            <p>
+                ${product.description}
+            </p>
+
+            <div class="rating">
+                ${product.rating}
+            </div>
+
+            <div class="price">
+                $${product.price}
+            </div>
+
+            <div class="product-actions">
+
+                <button
+                    class="view-btn"
+                    onclick="showDetails(${product.id})">
+
+                    Details
+
+                </button>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart(${product.id})">
+
+                    Add 🛒
+
+                </button>
+
+            </div>
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchProducts(){
+
+    const value =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    currentProducts =
+        products.filter(function(product){
+
+            return (
+                product.name.toLowerCase().includes(value)
+                ||
+                product.category.toLowerCase().includes(value)
+            );
+
+        });
+
+
+    displayProducts(currentProducts);
+
+}
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+function filterCategory(category){
+
+    const search =
+        document.getElementById("searchInput");
+
+    search.value = category;
+
+    currentProducts =
+        products.filter(function(product){
+
+            return product.category === category;
+
+        });
+
+    displayProducts(currentProducts);
+
+    goShop();
+
+    showToast(
+        category + " products displayed"
+    );
+
+}
+
+
+/* =========================
+   ADD CART
+========================= */
+
+function addToCart(id){
+
+    const product =
+        products.find(function(p){
+
+            return p.id === id;
+
+        });
+
+
+    const existing =
+        cart.find(function(item){
+
+            return item.id === id;
+
+        });
+
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        cart.push({
+            ...product,
+            quantity:1
+        });
+
+    }
+
+
+    updateCartCount();
+
+    showToast(
+        product.name + " added to cart 🛒"
+    );
+
+}
+
+
+/* =========================
+   UPDATE CART COUNT
+========================= */
+
+function updateCartCount(){
+
+    let count = 0;
+
+    cart.forEach(function(item){
+
+        count += item.quantity;
+
+    });
+
+
+    document.getElementById(
+        "cartCount"
+    ).innerHTML = count;
+
+}
+
+
+/* =========================
+   SHOW CART
+========================= */
+
+function openCart(){
+
+    renderCart();
+
+    openPopup("cartPopup");
+
+}
+
+
+/* =========================
+   RENDER CART
+========================= */
+
+function renderCart(){
+
+    const container =
+        document.getElementById("cartItems");
+
+    const totalElement =
+        document.getElementById("cartTotal");
+
+    container.innerHTML = "";
+
+
+    if(cart.length === 0){
+
+        container.innerHTML =
+            "<p>Your cart is empty 🛒</p>";
+
+        totalElement.innerHTML =
+            "Total: $0";
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+
+    cart.forEach(function(item){
+
+        total +=
+            item.price * item.quantity;
+
+
+        const div =
+            document.createElement("div");
+
+        div.className = "cart-item";
+
+        div.innerHTML = `
+
+            <img
+                src="${item.image}"
+                alt="${item.name}">
+
+            <div class="cart-item-info">
+
+                <strong>
+                    ${item.name}
+                </strong>
+
+                <p>
+                    $${item.price}
+                </p>
+
+                <div class="quantity">
+
+                    <button
+                        onclick="changeQuantity(${item.id},-1)">
+                        -
+                    </button>
+
+                    <span>
+                        ${item.quantity}
+                    </span>
+
+                    <button
+                        onclick="changeQuantity(${item.id},1)">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button
+                class="remove-btn"
+                onclick="removeFromCart(${item.id})">
+
+                🗑️
+
+            </button>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+
+    totalElement.innerHTML =
+        "Total: $" + total.toFixed(2);
+
+}
+
+
+/* =========================
+   CHANGE QUANTITY
+========================= */
+
+function changeQuantity(id,amount){
+
+    const item =
+        cart.find(function(product){
+
+            return product.id === id;
+
+        });
+
+
+    if(!item) return;
+
+
+    item.quantity += amount;
+
+
+    if(item.quantity <= 0){
+
+        cart =
+            cart.filter(function(product){
+
+                return product.id !== id;
+
+            });
+
+    }
+
+
+    updateCartCount();
+
+    renderCart();
+
+}
+
+
+/* =========================
+   REMOVE CART
+========================= */
+
+function removeFromCart(id){
+
+    cart =
+        cart.filter(function(item){
+
+            return item.id !== id;
+
+        });
+
+
+    updateCartCount();
+
+    renderCart();
+
+    showToast("Product removed");
+
+}
+
+
+/* =========================
+   WISHLIST
+========================= */
+
+function toggleWishlist(id){
+
+    if(wishlist.includes(id)){
+
+        wishlist =
+            wishlist.filter(function(item){
+
+                return item !== id;
+
+            });
+
+        showToast("Removed from wishlist");
+
+    }else{
+
+        wishlist.push(id);
+
+        showToast("Added to wishlist ❤️");
+
+    }
+
+
+    displayProducts(currentProducts);
+
+}
+
+
+/* =========================
+   OPEN WISHLIST
+========================= */
+
+function openWishlist(){
+
+    renderWishlist();
+
+    openPopup("wishlistPopup");
+
+}
+
+
+/* =========================
+   RENDER WISHLIST
+========================= */
+
+function renderWishlist(){
+
+    const container =
+        document.getElementById("wishlistItems");
+
+    container.innerHTML = "";
+
+
+    if(wishlist.length === 0){
+
+        container.innerHTML =
+            "<p>Your wishlist is empty ❤️</p>";
+
+        return;
+
+    }
+
+
+    wishlist.forEach(function(id){
+
+        const product =
+            products.find(function(p){
+
+                return p.id === id;
+
+            });
+
+
+        const div =
+            document.createElement("div");
+
+        div.className = "cart-item";
+
+        div.innerHTML = `
+
+            <img
+                src="${product.image}">
+
+            <div class="cart-item-info">
+
+                <strong>
+                    ${product.name}
+                </strong>
+
+                <p>
+                    $${product.price}
+                </p>
+
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addToCart(${product.id})">
+
+                Add
+
+            </button>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   PRODUCT DETAILS
+========================= */
+
+function showDetails(id){
+
+    const product =
+        products.find(function(p){
+
+            return p.id === id;
+
+        });
+
+
+    document.getElementById(
+        "detailsImage"
+    ).src = product.image;
+
+
+    document.getElementById(
+        "detailsName"
+    ).innerHTML = product.name;
+
+
+    document.getElementById(
+        "detailsPrice"
+    ).innerHTML =
+        "$" + product.price;
+
+
+    document.getElementById(
+        "detailsRating"
+    ).innerHTML =
+        product.rating;
+
+
+    document.getElementById(
+        "detailsDescription"
+    ).innerHTML =
+        product.description;
+
+
+    document.getElementById(
+        "detailsCartButton"
+    ).onclick = function(){
+
+        addToCart(product.id);
+
+    };
+
+
+    openPopup("detailsPopup");
+
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+function openAuth(){
+
+    openPopup("authPopup");
+
+}
+
+
+function showLogin(){
+
+    document.getElementById(
+        "loginForm"
+    ).style.display = "block";
+
+    document.getElementById(
+        "signupForm"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginTab"
+    ).classList.add("active");
+
+    document.getElementById(
+        "signupTab"
+    ).classList.remove("active");
+
+
+    document.getElementById(
+        "authTitle"
+    ).innerHTML = "Login";
+
+}
+
+
+function showSignup(){
+
+    document.getElementById(
+        "loginForm"
+    ).style.display = "none";
+
+    document.getElementById(
+        "signupForm"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "loginTab"
+    ).classList.remove("active");
+
+    document.getElementById(
+        "signupTab"
+    ).classList.add("active");
+
+
+    document.getElementById(
+        "authTitle"
+    ).innerHTML = "Create Account";
+
+}
+
+
+/* =========================
+   LOGIN DEMO
+========================= */
+
+function loginUser(){
+
+    const email =
+        document.getElementById(
+            "loginEmail"
+        ).value;
+
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    if(!email || !password){
+
+        showToast(
+            "Please enter email and password"
+        );
+
+        return;
+
+    }
+
+
+    closePopup("authPopup");
+
+    showToast(
+        "Login successful! 🎉"
+    );
+
+}
+
+
+/* =========================
+   SIGNUP DEMO
+========================= */
+
+function signupUser(){
+
+    const name =
+        document.getElementById(
+            "signupName"
+        ).value;
+
+
+    const email =
+        document.getElementById(
+            "signupEmail"
+        ).value;
+
+
+    const password =
+        document.getElementById(
+            "signupPassword"
+        ).value;
+
+
+    if(!name || !email || !password){
+
+        showToast(
+            "Please fill all fields"
+        );
+
+        return;
+
+    }
+
+
+    closePopup("authPopup");
+
+    showToast(
+        "Account created successfully 🎉"
+    );
+
+}
+
+
+/* =========================
+   CHECKOUT
+========================= */
+
+function openCheckout(){
+
+    if(cart.length === 0){
+
+        showToast(
+            "Your cart is empty"
+        );
+
+        return;
+
+    }
+
+
+    closePopup("cartPopup");
+
+    openPopup("checkoutPopup");
+
+}
+
+
+/* =========================
+   PLACE ORDER
+========================= */
+
+function placeOrder(){
+
+    const name =
+        document.getElementById(
+            "checkoutName"
+        ).value;
+
+
+    const address =
+        document.getElementById(
+            "checkoutAddress"
+        ).value;
+
+
+    const phone =
+        document.getElementById(
+            "checkoutPhone"
+        ).value;
+
+
+    const payment =
+        document.getElementById(
+            "paymentMethod"
+        ).value;
+
+
+    if(
+        !name ||
+        !address ||
+        !phone ||
+        !payment
+    ){
+
+        showToast(
+            "Please fill all checkout fields"
+        );
+
+        return;
+
+    }
+
+
+    cart = [];
+
+    updateCartCount();
+
+    closePopup("checkoutPopup");
+
+
+    showToast(
+        "Demo order placed successfully! 🎉"
+    );
+
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+function sendMessage(event){
+
+    event.preventDefault();
+
+    document.getElementById(
+        "contactName"
+    ).value = "";
+
+    document.getElementById(
+        "contactEmail"
+    ).value = "";
+
+    document.getElementById(
+        "contactMessage"
+    ).value = "";
+
+
+    showToast(
+        "Message sent successfully! 📩"
+    );
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+function toggleDark(){
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "googleShopDark",
+        dark
+    );
+
+}
+
+
+/* =========================
+   LOAD DARK MODE
+========================= */
+
+if(
+    localStorage.getItem("googleShopDark")
+    === "true"
+){
+
+    document.body.classList.add("dark");
+
+}
+
+
+/* =========================
+   POPUPS
+========================= */
+
+function openPopup(id){
+
+    document
+        .getElementById(id)
+        .classList.add("show");
+
+}
+
+
+function closePopup(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+}
+
+
+function outsideClose(event,id){
+
+    if(event.target.id === id){
+
+        closePopup(id);
+
+    }
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerHTML = message;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(function(){
+
+            toast.classList.remove("show");
+
+        },2500);
+
+}
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleMenu(){
+
+    document
+        .getElementById("navLinks")
+        .classList.toggle("open");
+
+}
+
+
+/* =========================
+   SHOP BUTTON
+========================= */
+
+function goShop(){
+
+    document
+        .getElementById("shop")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* =========================
+   ESCAPE KEY
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            document
+                .querySelectorAll(".popup")
+                .forEach(function(popup){
+
+                    popup.classList.remove("show");
+
+                });
+
+        }
+
+    }
+);
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+displayProducts(products);
+
+updateCartCount();
+
+</script>
+
+</body>
+</html>
